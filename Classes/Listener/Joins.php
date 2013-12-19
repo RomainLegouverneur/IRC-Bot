@@ -16,7 +16,7 @@ class Joins extends \Library\IRC\Listener\Base {
     public function execute($data) {
         $args = $this->getArguments($data);
 
-        $this->say($this->getUserNickName($args[0]) . ", welcome to channel " . $args[2] . ". Try following commands: " . $this->getCommandsName(), $args[2]);
+        //$this->say($this->getUserNickName($args[0]) . ", welcome to channel " . $args[2] . ". Try following commands: " . $this->getCommandsName(), $args[2]);
     }
 
     private function getCommandsName() {

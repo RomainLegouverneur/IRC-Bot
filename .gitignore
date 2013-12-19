@@ -1,4 +1,5 @@
 *.log
+*~
 Documentation/*
 .buildpath
 .project

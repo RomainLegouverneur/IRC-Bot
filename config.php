@@ -1,11 +1,11 @@
 <?php
 return array(
-    'server'   => 'irc.freenode.org',
+    'server'   => 'irc.quakenet.org',
     'port'     => 6667,
-    'name'     => 'phpbot',
-    'nick'     => 'phpbot',
+    'name'     => 'Bazinga',
+    'nick'     => 'Bazinga',
     'channels' => array(
-        '#phpbot404',
+        '#xstyled',
     ),
     'max_reconnects' => 1,
     'log_file'       => 'log.txt',
@@ -26,5 +26,6 @@ return array(
     ),
     'listeners' => array(
         'Listener\Joins' => array(),
+	'Listener\Youtube' => array(),
     ),
 );
