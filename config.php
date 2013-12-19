@@ -23,6 +23,8 @@ return array(
         'Command\Timeout' => array(),
         'Command\Quit'    => array(),
         'Command\Restart' => array(),
+	'Command\Php'	  => array(),
+	'Command\Excuses' => array(),
     ),
     'listeners' => array(
         'Listener\Joins' => array(),
