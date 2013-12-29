@@ -23,8 +23,10 @@ return array(
         'Command\Timeout' => array(),
         'Command\Quit'    => array(),
         'Command\Restart' => array(),
-	'Command\Php'	  => array(),
+	'Command\Php'	  => array('execDir' => 'c:/wamp/www/Github/IRC-Bot/Vendor'),
 	'Command\Excuses' => array(),
+	'Command\Commands' => array(), 
+	'Command\Wiki' => array(),
     ),
     'listeners' => array(
         'Listener\Joins' => array(),

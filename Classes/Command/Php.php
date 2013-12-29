@@ -1,103 +1,163 @@
 <?php
+
 // Namespace
+
 namespace Command;
 
 /**
- * Sends PHP Function Info to channel.
+ * Execute php code.
  *
  * @package IRCBot
  * @subpackage Command
- * @author Humberto Pereira (https://github.com/begnini)
- *
+ * @author David <david@d4v1d.nl>
  */
-class Php extends \Library\IRC\Command\Base {
-    /**
-     * The command's help text.
-     *
-     * @var string
-     */
-    protected $help = '!php [function name]';
+class Php extends \Library\IRC\Command\Base
+{
 
-    private $url = 'http://php.net/';
+        /**
+         * The command's help text.
+         *
+         * @var string
+         */
+        protected $help = '!php <code>';
 
-    /**
-     * The number of arguments the command needs.
-     *
-     * @var integer
-     */
-    protected $numberOfArguments = 1;
+        /**
+         * Infinte arguments
+         *
+         * @var integer
+         */
+        protected $numberOfArguments = -1;
 
-    /**
-     * Search for PHP function data, and give response to channel
-     *
-     * IRC-Syntax: PRIVMSG PHP function
-     */
-    public function command()
-    {
-        $function = $this->arguments[0];
-        $function = str_replace('::', '.', $function);
-        
-        $data     = $this->fetch($this->url . $function);
+        /**
+         * The directory to run the php scripts..
+         * @var string
+         */
+        protected $execDir;
 
-        if (preg_match('/"refpurpose">(.*)/', $data, $match)) 
+        /**
+         * The result of the executed code
+         * @var array
+         */
+        protected $result;
+
+        /**
+         * The exit code
+         * @var int
+         */
+        protected $exitCode;
+
+        /**
+         * If we're using eval() this is used as a buffer to catch the output..
+         * @var string
+         */
+        protected $evalBuffer;
+
+        /**
+         * Executes PHP code.
+         */
+        public function command()
         {
-            $doc = new \DOMDocument();
-            /* ignore HTML malformed warnings */
-            @$doc->loadHTML($data);
+                // Are we allowed?
+               // if ( !\Library\FunctionCollection::authed( $this->getUserIp() ) )
+                 //       return false;
 
-            $ps = $doc->getElementsByTagName('p');
-            
-            foreach ($ps as $p)
-            {
-                if ($p->getAttribute('class') == 'refpurpose')
+                if ( $this->arguments[ 0 ] == 'eval:' )
                 {
-                    $description = $this->getText($p);
-                    break;
+                        $this->result = $this->run_eval( implode( ' ', array_slice( $this->arguments, 1 ) ) );
                 }
-            }
-
-            /* send function description */
-            $this->say($description);
-
-            $divs = $doc->getElementsByTagName('div');
-
-            $params = '';
-
-            foreach ($divs as $div)
-            {
-                if ($div->getAttribute('class') == 'methodsynopsis dc-description')
+                else
                 {
-                    $params = $this->getText($div);
-                    break;
+                        if ( !is_writable( $this->execDir ) )
+                        {
+                                $this->bot->log( "Cannot write to PHP exec dir..: " . $this->execDir, 'DEBUG' );
+                                $this->say( "PHP exec dir is not writable.." );
+                                return false;
+                        }
+
+                        // Cleaning old scripts, in case there is any still.. 
+                        #array_map( "unlink", glob( $this->execDir . '/*.php' ) );
+
+                        $this->result = $this->run( implode( ' ', $this->arguments ) );
                 }
-            }
-                
-            $this->say($params);
+
+                //$pastebin = \Library\Pastebin;
+                //
+                // outputs to IRC
+                // .
+                // TODO: pastebin if it's a long output.
+                foreach ( $this->result as $line )
+                {
+                        $this->say( $line );
+                }
         }
-        else
+
+        public function __construct( $execDir )
         {
-            $this->say('PHP: Error fetching data');
+                if ( empty( $execDir ) )
+                {
+                        throw new \Exception( 'Invalid arguments' );
+                }
+
+                // Set the dir to run PHP scripts from.
+                $this->execDir = $execDir;
         }
-    }
 
-    private function getText($element) 
-    {
-        /* get HTML from the div elem. */
-        $doc = new \DOMDocument();
-        $doc->appendChild($doc->importNode($element, TRUE));
+        /**
+         * Runs PHP code from a file
+         * 
+         * @param string $code The PHP code
+         * @return array an array with the output, one line per key.. 
+         */
+        protected function run( $code )
+        {
+                // Just preparing, netbeans will give some stupid warnings if I do not do this..
+                $lines = array( );
 
-        $html = $doc->saveHTML();
+                // The filename..
+                $file = $this->execDir . "/" . time() . ".php";
 
-        /* remove html tags and extra spaces */
-        $text = strip_tags($html);
-        $text = str_replace('&mdash;', '-', $text);
-        $text = html_entity_decode($text);
+                // If writing fails do nothing..
+                if ( file_put_contents( $file, "<?php " . $code . " ?>" ) === false )
+                {
+                        $this->bot->log( "Unable to write PHP exec file: " . $file, 'DEBUG' );
+                        return false;
+                }
 
-        $text = str_replace("\n", ' ', $text);
-        $text = preg_replace('/\s+/', ' ', $text);
-        $text = trim($text);
+                // The CMD
+                $cmd = 'php ' . escapeshellarg( $file ) . ' 2>&1';
 
-        return $text;
-    }
+                // Log stuff ^^
+                $this->bot->log( "Executing php code: " . $cmd, 'DEBUG' );
+
+                // And run it!
+                exec( $cmd, $lines, $this->exitCode );
+
+                // Return an array, one line per key.
+                return $lines;
+        }
+
+        /**
+         * Runs PHP code with eval()
+         * 
+         * @param string $code The PHP code
+         * @return array an array with the output, one line per key.. 
+         */
+        protected function run_eval( $code )
+        {
+                // Start a buffer to get the eval() output
+                ob_start();
+
+                // Run the code
+                eval( $code );
+
+                // Put the result in a variable and stop the buffer
+                $this->buffer = ob_get_contents();
+                ob_end_clean();
+
+                // Return an array, one line per key
+                return explode( "\n", $this->buffer );
+        }
+
 }
+
 ?>
