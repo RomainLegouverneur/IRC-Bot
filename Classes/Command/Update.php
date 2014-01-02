@@ -32,8 +32,14 @@ class Update extends \Library\IRC\Command\Base {
      */
     public function command() 
     {
+    	if ( !\Library\FunctionCollection::authed( $this->getUserIp() ) )
+		{
+				$this->say("Not allowed");
+				return false;
+		}
         $this->say("Update in progress");
-        shell_exec("git pull");
+        $ret = shell_exec("git pull");
+		$this->say($ret);
         $this->say("Update done");
         
         //Todo
