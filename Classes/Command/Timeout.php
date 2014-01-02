@@ -31,6 +31,13 @@ class Timeout extends \Library\IRC\Command\Base {
      * The bot disconnects for the specified number of seconds.
      */
     public function command() {
+	// Are we allowed?
+                if ( !\Library\FunctionCollection::authed( $this->getUserIp() ) )
+                {
+                        $this->say("Not allowed");
+                        return false;
+                }
+
         // Quit, sleep, and reconnect ( CLI and HTML )
         $this->connection->sendData('QUIT');
         sleep( (int)($this->arguments[0]) );

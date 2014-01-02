@@ -21,6 +21,13 @@ class Restart extends \Library\IRC\Command\Base {
      * Restarts the bot.
      */
     public function command() {
+	// Are we allowed?
+                if ( !\Library\FunctionCollection::authed( $this->getUserIp() ) )
+                {
+                        $this->say("Not allowed");
+                        return false;
+                }
+
         // Exit from Sever
         $this->connection->sendData('QUIT');
 

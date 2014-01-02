@@ -34,6 +34,13 @@ class Join extends \Library\IRC\Command\Base {
      * IRC-Syntax: JOIN [#channel]
      */
     public function command() {
+	// Are we allowed?
+                if ( !\Library\FunctionCollection::authed( $this->getUserIp() ) )
+                {
+                        $this->say("Not allowed");
+                        return false;
+                }
+
         $this->connection->sendData('JOIN '.$this->arguments[0]);
     }
 }

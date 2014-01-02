@@ -2,17 +2,17 @@
 return array(
     'server'   => 'irc.quakenet.org',
     'port'     => 6667,
-    'name'     => 'Bazinga',
-    'nick'     => 'Bazinga',
+    'name'     => 'B0tn4me',
+    'nick'     => 'B0tn4me',
     'channels' => array(
-        '#xstyled',
+        '#channel',
     ),
     'max_reconnects' => 1,
     'log_file'       => 'log.txt',
     'commands'       => array(
         'Command\Say'     => array(),
         'Command\Weather' => array(
-            'yahooKey' => 'a',
+            'yahooKey' => 'youryahooapikey',
         ),
         'Command\Joke'    => array(),
         'Command\Ip'      => array(),
@@ -23,9 +23,9 @@ return array(
         'Command\Timeout' => array(),
         'Command\Quit'    => array(),
         'Command\Restart' => array(),
-	'Command\Php'	  => array('execDir' => 'c:/wamp/www/Github/IRC-Bot/Vendor'),
+	'Command\Php'	  => array('execDir' => '/your/path/get/files/php'),
 	'Command\Excuses' => array(),
-	'Command\Commands' => array(), 
+	'Command\Commands' => array(),
 	'Command\Wiki' => array(),
     ),
     'listeners' => array(

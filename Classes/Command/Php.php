@@ -58,8 +58,11 @@ class Php extends \Library\IRC\Command\Base
         public function command()
         {
                 // Are we allowed?
-               // if ( !\Library\FunctionCollection::authed( $this->getUserIp() ) )
-                 //       return false;
+                if ( !\Library\FunctionCollection::authed( $this->getUserIp() ) )
+                {
+			$this->say("Not allowed");
+			return false;
+		}
 
                 if ( $this->arguments[ 0 ] == 'eval:' )
                 {
@@ -132,6 +135,11 @@ class Php extends \Library\IRC\Command\Base
                 // And run it!
                 exec( $cmd, $lines, $this->exitCode );
 
+		//Pastebin
+		//$this->pastebin($lines);
+		
+		//$this->say("Nombre de lignes: " .count($lines));
+
                 // Return an array, one line per key.
                 return $lines;
         }
@@ -157,7 +165,38 @@ class Php extends \Library\IRC\Command\Base
                 // Return an array, one line per key
                 return explode( "\n", $this->buffer );
         }
+	
+	protected function pastebin($lines)
+	{
+		$toto = '';
+		foreach ( $lines as $line )
+                {
+                       $toto .= $line;
+                }
 
+		$api_dev_key 			= 'bb2965f4e694957f7fc77a6e2343b8b3'; // your api_developer_key
+		$api_paste_code 		= "$toto"; // your paste text
+		$api_paste_private 		= '1'; // 0=public 1=unlisted 2=private
+		$api_paste_name			= 'p0n3y.php'; // name or title of your paste
+		$api_paste_expire_date 		= '10M';
+		$api_paste_format 		= 'php';
+		$api_user_key 			= ''; // if an invalid api_user_key or no key is used, the paste will be create as a guest
+		$api_paste_name			= urlencode($api_paste_name);
+		$api_paste_code			= urlencode($api_paste_code);
+
+
+		$url 				= 'http://pastebin.com/api/api_post.php';
+		$ch 				= curl_init($url);
+
+		curl_setopt($ch, CURLOPT_POST, true);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, 'api_option=paste&api_user_key='.$api_user_key.'&api_paste_private='.$api_paste_private.'&api_paste_name='.$api_paste_name.'&api_paste_expire_date='.$api_paste_expire_date.'&api_paste_format='.$api_paste_format.'&api_dev_key='.$api_dev_key.'&api_paste_code='.$api_paste_code.'');
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($ch, CURLOPT_VERBOSE, 1);
+		curl_setopt($ch, CURLOPT_NOBODY, 0);
+
+		$response  			= curl_exec($ch);
+		$this->say("Pastebin: " . $response);
+	}
 }
 
 ?>
