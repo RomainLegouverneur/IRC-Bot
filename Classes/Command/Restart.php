@@ -30,9 +30,13 @@ class Restart extends \Library\IRC\Command\Base {
 
 		// Exit from Sever
 		$this->connection->sendData('QUIT');
-
+		
+		shell_exec("stop phpbot404");
+		sleep(1);
+		shell_exec("start phpbot404");
+		exit;
 		// Reconnect to Server
-		$this->bot->connectToServer();
+		//$this->bot->connectToServer();
 	}
 }
 ?>
