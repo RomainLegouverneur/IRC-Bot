@@ -1,4 +1,4 @@
-# PHP IRC-BOT (WildPHP) (http://wildphp.com)
+# PHP IRC-BOT (WildPHP)
 
 ### Standard Commands
 
