@@ -27,6 +27,7 @@ return array(
 	'Command\Excuses' => array(),
 	'Command\Commands' => array(),
 	'Command\Wiki' => array(),
+	'Command\Update' => array(),
     ),
     'listeners' => array(
         'Listener\Joins' => array(),
