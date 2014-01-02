@@ -19,7 +19,7 @@
  * echo $pb->getUrl();
  * </code>
  * 
- * @license    http://creativecommons.org/licenses/by/3.0/
+ * @license	http://creativecommons.org/licenses/by/3.0/
  * @package IRCBot
  * @subpackage Library
  * @author David <david@d4v1d.nl>
@@ -31,134 +31,134 @@ namespace Library;
 class Pastebin
 {
 
-        /**
-         * The API key
-         * @var string
-         */
-        private $_key;
+		/**
+		 * The API key
+		 * @var string
+		 */
+		private $_key;
 
-        /**
-         * The text to paste..
-         * @var string
-         */
-        private $_text;
+		/**
+		 * The text to paste..
+		 * @var string
+		 */
+		private $_text;
 
-        /**
-         * Name of the post
-         * @var string
-         */
-        private $_name;
+		/**
+		 * Name of the post
+		 * @var string
+		 */
+		private $_name;
 
-        /**
-         * Expiring date..
-         * @var string
-         */
-        private $_expire;
+		/**
+		 * Expiring date..
+		 * @var string
+		 */
+		private $_expire;
 
-        /**
-         * Paste format
-         * @var string
-         */
-        private $_format;
+		/**
+		 * Paste format
+		 * @var string
+		 */
+		private $_format;
 
-        /**
-         * 0=public 1=unlisted 2=private
-         * @var string
-         */
-        private $_visible;
+		/**
+		 * 0=public 1=unlisted 2=private
+		 * @var string
+		 */
+		private $_visible;
 
-        /**
-         * The curl handler.
-         * @var resource
-         */
-        private $_curl;
+		/**
+		 * The curl handler.
+		 * @var resource
+		 */
+		private $_curl;
 
-        /**
-         * the pastebin url.
-         * @var string
-         */
-        private $_url;
+		/**
+		 * the pastebin url.
+		 * @var string
+		 */
+		private $_url;
 
-        /**
-         * Sets the API key
-         * @param string $value
-         */
-        public function setKey( $value )
-        {
-                $this->_key = $value;
-        }
+		/**
+		 * Sets the API key
+		 * @param string $value
+		 */
+		public function setKey( $value )
+		{
+				$this->_key = $value;
+		}
 
-        /**
-         * Defines what we are going to paste..
-         * @param string $value
-         */
-        public function setText( $value )
-        {
-                $this->_text = $value;
-        }
+		/**
+		 * Defines what we are going to paste..
+		 * @param string $value
+		 */
+		public function setText( $value )
+		{
+				$this->_text = $value;
+		}
 
-        /**
-         * The title of the paste..
-         * @param string $value
-         */
-        public function setName( $value )
-        {
-                $this->_name = $value;
-        }
+		/**
+		 * The title of the paste..
+		 * @param string $value
+		 */
+		public function setName( $value )
+		{
+				$this->_name = $value;
+		}
 
-        /**
-         * The expire date
-         * @param string $value
-         */
-        public function setExpire( $value )
-        {
-                $this->_expire = $value;
-        }
+		/**
+		 * The expire date
+		 * @param string $value
+		 */
+		public function setExpire( $value )
+		{
+				$this->_expire = $value;
+		}
 
-        /**
-         * The text format
-         * @param string $value
-         */
-        public function setFormat( $value )
-        {
-                $this->_format = $value;
-        }
+		/**
+		 * The text format
+		 * @param string $value
+		 */
+		public function setFormat( $value )
+		{
+				$this->_format = $value;
+		}
 
-        /**
-         * Set the visibility
-         * @param int $value
-         */
-        public function setVisible( $value )
-        {
-                $this->_visible = $value;
-        }
+		/**
+		 * Set the visibility
+		 * @param int $value
+		 */
+		public function setVisible( $value )
+		{
+				$this->_visible = $value;
+		}
 
-        /**
-         * Sets the curls options and posts to pastebin.com!
-         */
-        public function run()
-        {
-                $this->_curl = curl_init( 'http://pastebin.com/api/api_post.php' );
+		/**
+		 * Sets the curls options and posts to pastebin.com!
+		 */
+		public function run()
+		{
+				$this->_curl = curl_init( 'http://pastebin.com/api/api_post.php' );
 
-                curl_setopt( $this->_curl, CURLOPT_POST, true );
-                curl_setopt( $this->_curl, CURLOPT_POSTFIELDS, 'api_option=paste
-                        &api_paste_private=' . $this->_visibility . '
-                        &api_paste_name=' . $this->_name . '
-                        &api_paste_expire_date=' . $this->_expire . '
-                        &api_paste_format=' . $this->_format . '
-                        &api_dev_key=' . $this->_key . '
-                        &api_paste_code=' . $this->_text . '' );
+				curl_setopt( $this->_curl, CURLOPT_POST, true );
+				curl_setopt( $this->_curl, CURLOPT_POSTFIELDS, 'api_option=paste
+						&api_paste_private=' . $this->_visibility . '
+						&api_paste_name=' . $this->_name . '
+						&api_paste_expire_date=' . $this->_expire . '
+						&api_paste_format=' . $this->_format . '
+						&api_dev_key=' . $this->_key . '
+						&api_paste_code=' . $this->_text . '' );
 
-                curl_setopt( $this->_curl, CURLOPT_RETURNTRANSFER, 1 );
-                curl_setopt( $this->_curl, CURLOPT_NOBODY, 0 );
+				curl_setopt( $this->_curl, CURLOPT_RETURNTRANSFER, 1 );
+				curl_setopt( $this->_curl, CURLOPT_NOBODY, 0 );
 
-                $this->_url = curl_exec( $this->_curl );
-        }
+				$this->_url = curl_exec( $this->_curl );
+		}
 
-        public function getUrl()
-        {
-                return $this->_url;
-        }
+		public function getUrl()
+		{
+				return $this->_url;
+		}
 
 }
 

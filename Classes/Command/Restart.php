@@ -10,29 +10,29 @@ namespace Command;
  * @author Super3 <admin@wildphp.com>
  */
 class Restart extends \Library\IRC\Command\Base {
-    /**
-    * The command's help text.
-    *
-    * @var string
-    */
-    protected $help = '!restart';
+	/**
+	* The command's help text.
+	*
+	* @var string
+	*/
+	protected $help = '!restart';
 
-    /**
-     * Restarts the bot.
-     */
-    public function command() {
+	/**
+	 * Restarts the bot.
+	 */
+	public function command() {
 	// Are we allowed?
-                if ( !\Library\FunctionCollection::authed( $this->getUserIp() ) )
-                {
-                        $this->say("Not allowed");
-                        return false;
-                }
+				if ( !\Library\FunctionCollection::authed( $this->getUserIp() ) )
+				{
+						$this->say("Not allowed");
+						return false;
+				}
 
-        // Exit from Sever
-        $this->connection->sendData('QUIT');
+		// Exit from Sever
+		$this->connection->sendData('QUIT');
 
-        // Reconnect to Server
-        $this->bot->connectToServer();
-    }
+		// Reconnect to Server
+		$this->bot->connectToServer();
+	}
 }
 ?>
