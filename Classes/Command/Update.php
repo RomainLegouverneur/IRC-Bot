@@ -40,7 +40,6 @@ class Update extends \Library\IRC\Command\Base {
         $this->say("Update in progress");
         $ret = shell_exec("git pull");
 		$this->say($ret);
-        $this->say("Update done");
         
         //Todo
         // $args = restart/rehash;
