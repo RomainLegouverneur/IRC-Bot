@@ -1,4 +1,13 @@
-# PHP IRC-BOT (WildPHP) (http://wildphp.com)
+# PHP IRC-BOT (WildPHP)
+A IRC Bot built in PHP (using sockets) with OOP. Designed to run off a local LAMP, WAMP, or MAMP stack.
+Includes a custom [Upstart](http://upstart.ubuntu.com/) script to run as Linux daemon.
+
+Web
+-------
+* Official Website: [http://wildphp.com](http://wildphp.com), Source Code: [Github](https://github.com/pogosheep/IRC-Bot)
+* Major Contributors: [Super3](http://super3.org), [Pogosheep](http://layne-obserdia.de), [Matejvelikonja](http://velikonja.si)
+
+## Features and Functions
 
 ### Standard Commands
 
@@ -17,13 +26,21 @@
 * !poke [#channel] [username] - Pokes the specified IRC user.
 * !joke - Returns random joke. Fetched from [ICNDb.com](http://www.icndb.com/).
 * !imdb [movie title] - Searches for movie and returns it's information.
-* !php [text code] - Write and execute php code.
-* !commands - Return all active commands
+
 
 ### Listeners
 
+
 * Joins - Greets users when they join the channel.
-* Youtube - Write description of youtube's video when they share a video 
+
+## Install & Run
+
+### Dependecy
+
+proctitle (optional) - Changes the process title when running as service.
+
+    pecl install proctitle-alpha
+
 ### Config
 
 Copy configuration file and customize its content.
@@ -52,5 +69,13 @@ Stop
 
     stop phpbot404
 
+### Sample Usage and Output
 
-Just 4 Fun.
+    <random-user> !say #wildphp hello there
+    <wildphp-bot> hello there
+    <random-user> !poke #wildphp random-user
+    * wildphp-bot pokes random-user
+    
+### Community
+
+IRC: [#phpbot404@freenode.net](http://webchat.freenode.net/?channels=phpbot404)
