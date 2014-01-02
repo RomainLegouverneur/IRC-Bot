@@ -9,7 +9,7 @@ namespace Command;
  * @subpackage Command
  * @author Romain Legouverneur <romain.legouverneur@gmail.com>
  */
-class Commands extends \Library\IRC\Command\Base {
+class Update extends \Library\IRC\Command\Base {
     /**
     * The command's help text.
     *
