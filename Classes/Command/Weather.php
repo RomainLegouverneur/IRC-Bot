@@ -103,7 +103,7 @@ class Weather extends \Library\IRC\Command\Base {
 			$weather = $this->getWeather($locationObject->woeid);
 
 			if ($weather) {
-				$this->say("Weather for {$locationObject->name}, {$locationObject->country}: " . $weather);
+				$this->say("\o/ Weather for {$locationObject->name}, {$locationObject->country}: " . $weather);
 			} else {
 				$this->say("Weather for {$locationObject->name}, {$locationObject->country} not found.");
 			}
