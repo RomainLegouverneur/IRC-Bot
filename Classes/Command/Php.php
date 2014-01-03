@@ -136,7 +136,7 @@ class Php extends \Library\IRC\Command\Base
 				exec( $cmd, $lines, $this->exitCode );
 
 		//Pastebin
-		//$this->pastebin($lines);
+		$this->pastebin($lines);
 		
 		//$this->say("Nombre de lignes: " .count($lines));
 
