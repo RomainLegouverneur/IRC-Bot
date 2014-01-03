@@ -37,9 +37,12 @@ class Update extends \Library\IRC\Command\Base {
 				$this->say("Not allowed");
 				return false;
 		}
-        $this->say("Update in progress");
+        $this->say("Update in progress ...");
         $ret = shell_exec("git pull");
-		$this->say($ret);
+        $this->say($ret);
+        
+        if ($ret != 'Already up-to-date.')
+		$this->say('Update done !');
         
         //Todo
         // $args = restart/rehash;
