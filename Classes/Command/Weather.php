@@ -31,14 +31,14 @@ class Weather extends \Library\IRC\Command\Base {
 	 *
 	 * @var string
 	 */
-	private $locationUri = "http://where.yahooapis.com/v1/places.q('%s')?appid=%s&format=json&lang=fr-FR";
+	private $locationUri = "http://where.yahooapis.com/v1/places.q('%s')?appid=%s&format=json";
 
 	/**
 	 * Weather URI API call
 	 *
 	 * @var string
 	 */
-	private $weatherUri = "http://query.yahooapis.com/v1/public/yql?q=%s&format=json&lang=fr-FR";
+	private $weatherUri = "http://query.yahooapis.com/v1/public/yql?q=%s&format=json";
 
 	/**
 	 * API for getting location from IP
@@ -76,7 +76,10 @@ class Weather extends \Library\IRC\Command\Base {
 		$location = preg_replace('/\s\s+/', ' ', $location);
 		$location = trim($location);
 		$location = urlencode($location);
-
+		
+		if ($location == 'antarctique')
+			$this->say("fuc* off!"); return;
+		
 		if (!strlen($location)) {
 			$ip = $this->getUserIp();
 
