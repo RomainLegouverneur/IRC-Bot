@@ -31,7 +31,7 @@ class Restart extends \Library\IRC\Command\Base {
 		// Exit from Sever
 		$this->connection->sendData('QUIT');
 		
-		shell_exec("sudo restart phpbot404");
+		shell_exec("sh bot.sh restart");
 		// Reconnect to Server
 		//$this->bot->connectToServer();
 	}

@@ -16,6 +16,27 @@
 	 */
 
 	define('ROOT_DIR', __DIR__);
+	define('PID', getmypid() );
+	define('VERSION', "v0.69" );
+
+	/**
+	 * Opens a file handler for the pid file.
+	 * @var $fhandle resource the file handler
+	 */
+	$fhandle = fopen( ROOT_DIR . "/phpbot404.pid", "w" );
+
+	if (!PID)
+	{
+		throw new Exception("Cannot find PID of current process");
+		exit();
+	}
+
+	if (!fwrite($fhandle, PID))
+	{
+		throw new Exception("Cannot write PID");
+		exit();
+	}
+	fclose($fhandle);
 
 	// Configure PHP
 	//ini_set( 'display_errors', 'on' );
@@ -33,6 +54,8 @@
 
 	// Create the bot.
 	$bot = new Library\IRC\Bot();
+
+	$bot->log("STARTING BOT, VERSION: " . VERSION );
 
 	// Configure the bot.
 	$bot->setServer( $config['server'] );
