@@ -77,8 +77,9 @@ class Weather extends \Library\IRC\Command\Base {
 		$location = trim($location);
 		$location = urlencode($location);
 		
-		if ($location == 'antarctique')
+		if ($location == 'antarctique') {
 			$this->say("fuc* off!"); return;
+		}
 		
 		if (!strlen($location)) {
 			$ip = $this->getUserIp();
