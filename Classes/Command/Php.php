@@ -135,10 +135,10 @@ class Php extends \Library\IRC\Command\Base
 				// And run it!
 				exec( $cmd, $lines, $this->exitCode );
 
-		//Pastebin
-		$this->pastebin($lines);
-		
-		//$this->say("Nombre de lignes: " .count($lines));
+				//Pastebin
+				//$this->pastebin($lines);
+				
+				//$this->say("Nombre de lignes: " .count($lines));
 
 				// Return an array, one line per key.
 				return $lines;
