@@ -40,7 +40,7 @@ class Docs extends \Library\IRC\Command\Base {
          * Get random Imgur URL and return it.
                  */
         public function command() {
-                        include(getcwd().'/Vendor/simple_html_dom.php');
+                        include_once(getcwd().'/Vendor/simple_html_dom.php');
 
                         $out = NULL;
 
