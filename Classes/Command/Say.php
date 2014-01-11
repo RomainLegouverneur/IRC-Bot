@@ -33,9 +33,20 @@ class Say extends \Library\IRC\Command\Base {
 	 */
 	public function command() {
 		//$this->say(implode( ' ', array_slice( $this->arguments, 1 ) ));
-		 if (isset($this->arguments[0]) AND ! empty($this->arguments[0])) {
+		/* if (isset($this->arguments[0]) AND ! empty($this->arguments[0])) {
 					$this->say(implode(' ', $this->arguments));
 						}
+		*/
+		if (!strlen($this->arguments[0]) OR !strlen($this->arguments[1]))
+                {
+                        $this->say($this->help);
+                        return;
+                }
+                
+                $this->connection->sendData(
+            		'PRIVMSG ' . $this->arguments[0] .
+            		' :'. trim(implode( ' ', array_slice( $this->arguments, 1 ) ))
+        	);
 	}
 }
 ?>
